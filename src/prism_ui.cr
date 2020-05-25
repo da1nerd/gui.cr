@@ -1,6 +1,8 @@
-# TODO: Write documentation for `PrismUi`
-module PrismUi
-  VERSION = "0.1.0"
+require "./engine"
 
+module PrismUI
+  VERSION = "0.1.0"
   # TODO: Put your code here
 end
+
+Prism::Context.run("Hello World", PrismUI::Engine.new)
