@@ -1,0 +1,9 @@
+name: prism_ui
+version: 0.1.0
+
+authors:
+  - Joel <joel@neutrinographics.com>
+
+crystal: 0.34.0
+
+license: MIT
