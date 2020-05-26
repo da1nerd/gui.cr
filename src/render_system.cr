@@ -1,6 +1,6 @@
 require "crash"
 require "annotation"
-require "./gui_renderer.cr"
+require "./ui_renderer.cr"
 
 module PrismUI
   # A default system for rendering `Prism::Entity`s.
@@ -8,15 +8,16 @@ module PrismUI
     # RGB
     BACKGROND_COLOR = Vector3f.new(0.80, 0.80, 0.80)
     @guis : Array(Crash::Entity)
-    @gui_renderer : Prism::Systems::GUIRenderer = Prism::Systems::GUIRenderer.new
+    @ui_renderer : UIRenderer
 
     def initialize
+      @ui_renderer = UIRenderer.new
       @guis = [] of Crash::Entity
     end
 
     @[Override]
     def add_to_engine(engine : Crash::Engine)
-      @guis = engine.get_entities Prism::GUIElement
+      @guis = engine.get_entities UIDisplay
     end
 
     # Handles the rendering.
@@ -24,7 +25,9 @@ module PrismUI
     def render
       # start shading
       prepare
-      @gui_renderer.render(@guis)
+      @guis.each do |e|
+        @ui_renderer.render(e.get(UIDisplay).as(UIDisplay).to_render_data)
+      end
     end
 
     @[Override]
