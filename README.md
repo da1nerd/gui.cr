@@ -1,4 +1,6 @@
 # GUI
+[![GitHub release](https://img.shields.io/github/release/neutrinog/gui-crystal.svg)](https://github.com/neutrinog/gui-crystal/releases)
+[![Build Status](https://travis-ci.org/neutrinog/gui-crystal.svg?branch=master)](https://travis-ci.org/neutrinog/gui-crystal)
 
 A Graphical User Interface toolkit.
 
