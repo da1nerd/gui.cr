@@ -12,5 +12,5 @@ addons:
     update: true
 
 script:
-  - crystal spec --error-trace
+  - crystal spec -D ci --error-trace
   - crystal tool format --check
