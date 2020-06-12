@@ -1,7 +1,14 @@
+require "prism"
+
 module GUI
-  enum Color
-    WHITE
-    GREY
-    BLACK
+  struct Color
+    WHITE = Color.new(1, 1, 1)
+    GREY = Color.new(0.5, 0.5, 0.5)
+    BLACK = Color.new(0, 0, 0)
+
+    getter red, blue, green
+
+    def initialize(@red : Float32, @blue : Float32, @green : Float32)
+    end
   end
 end

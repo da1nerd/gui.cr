@@ -36,8 +36,8 @@ module GUI
 
     def render_ui(ui : GUI::RenderData)
       # gui = entity.get(UIDisplay).as(UIDisplay)
-      # @shader.gui_texture = gui.texture
-      # @shader.transformation_matrix = create_transformation_matrix(gui.position, gui.scale)
+      @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.blue, ui.color.green)
+      @shader.transformation_matrix = ui.transformation # create_transformation_matrix(gui.position, gui.scale)
       LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
     end
   end
