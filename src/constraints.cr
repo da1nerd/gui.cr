@@ -1,4 +1,4 @@
-require "./constraint.cr"
+require "./constraints/constraint.cr"
 
 module GUI
   class Constraints

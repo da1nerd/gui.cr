@@ -3,7 +3,7 @@ require "prism"
 module GUI
   struct Color
     WHITE = Color.new(1, 1, 1)
-    GREY = Color.new(0.5, 0.5, 0.5)
+    GREY  = Color.new(0.5, 0.5, 0.5)
     BLACK = Color.new(0, 0, 0)
 
     getter red, blue, green
