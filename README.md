@@ -1,6 +1,6 @@
-# prism_ui
+# GUI
 
-TODO: Write a description here
+A Graphical User Interface toolkit.
 
 ## Installation
 
@@ -8,8 +8,8 @@ TODO: Write a description here
 
    ```yaml
    dependencies:
-     prism_ui:
-       github: neutrinog/prism_ui
+     gui:
+       github: neutrinog/gui-crystal
    ```
 
 2. Run `shards install`
@@ -17,7 +17,7 @@ TODO: Write a description here
 ## Usage
 
 ```crystal
-require "prism_ui"
+require "gui"
 ```
 
 TODO: Write usage instructions here
@@ -28,7 +28,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/neutrinog/prism_ui/fork>)
+1. Fork it (<https://github.com/neutrinog/gui-crystal/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

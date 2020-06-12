@@ -1,2 +1,2 @@
 require "spec"
-require "../src/prism_ui"
+require "../src/gui"

@@ -1,5 +1,5 @@
-module PrismUI
-  enum UIColor
+module GUI
+  enum Color
     WHITE
     GREY
     BLACK

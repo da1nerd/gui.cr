@@ -1,9 +1,9 @@
 require "baked_file_system"
 require "prism"
 
-module PrismUI
+module GUI
   # A generic shader for the GUI
-  class UIShader < Prism::Shader::Program
+  class Shader < Prism::Shader::Program
     uniform "guiTexture", Prism::Texture2D
     uniform "transformationMatrix", Matrix4f
 

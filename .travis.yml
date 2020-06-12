@@ -1,6 +1,16 @@
 language: crystal
+cache: shards
+crystal:
+  - latest
+  - nightly
 
-# Uncomment the following if you'd like Travis to run specs and check code formatting
-# script:
-#   - crystal spec
-#   - crystal tool format --check
+before_install:
+  - sudo apt-get -y install libglfw3-dev mesa-common-dev
+
+addons:
+  apt:
+    update: true
+
+script:
+  - crystal spec --error-trace
+  - crystal tool format --check

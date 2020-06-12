@@ -1,13 +1,13 @@
-require "./ui_shader.cr"
-require "./ui_display.cr"
+require "./shader.cr"
+require "./display.cr"
 
-module PrismUI
-  class UIRenderer
-    @shader : UIShader
+module GUI
+  class Renderer
+    @shader : GUI::Shader
     @quad : Prism::Model
 
     def initialize
-      @shader = UIShader.new
+      @shader = GUI::Shader.new
       @quad = Prism::Model.load_2f([-1, 1, -1, -1, 1, 1, 1, -1] of Float32)
     end
 
@@ -17,7 +17,7 @@ module PrismUI
       return translate_matrix * scale_matrix
     end
 
-    def render(ui_data : Array(UIRenderData))
+    def render(ui_data : Array(GUI::RenderData))
       LibGL.front_face(LibGL::CCW)
       LibGL.enable(LibGL::BLEND)
       LibGL.blend_func(LibGL::SRC_ALPHA, LibGL::ONE_MINUS_SRC_ALPHA)
@@ -34,7 +34,7 @@ module PrismUI
       LibGL.front_face(LibGL::CW)
     end
 
-    def render_ui(ui : UIRenderData)
+    def render_ui(ui : GUI::RenderData)
       # gui = entity.get(UIDisplay).as(UIDisplay)
       # @shader.gui_texture = gui.texture
       # @shader.transformation_matrix = create_transformation_matrix(gui.position, gui.scale)

@@ -1,4 +1,4 @@
-name: prism_ui
+name: gui
 version: 0.1.0
 
 authors:
@@ -9,5 +9,7 @@ crystal: 0.34.0
 license: MIT
 
 dependencies:
+  kiwi:
+    github: neutrinog/kiwi-crystal
   prism:
     github: neutrinog/prism
