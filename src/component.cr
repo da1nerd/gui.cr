@@ -10,7 +10,7 @@ module GUI
     getter animator, color
 
     def initialize
-      initialize(GUI::Color::WHITE)
+      initialize(GUI::Color::RED)
     end
 
     def initialize(@color : GUI::Color)

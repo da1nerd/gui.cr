@@ -1,4 +1,5 @@
 require "prism"
+require "annotation"
 require "./render_system.cr"
 require "./block.cr"
 require "./display.cr"
@@ -30,12 +31,19 @@ module GUI
 
     @[Override]
     def tick(tick : RenderLoop::Tick, input : RenderLoop::Input)
-      @display.resize(input.window_size)
+      @display.size = input.framebuffer_size
+
+    end
+
+    @[Override]
+    def flush
+      LibGL.viewport(0, 0, @display.size[:width], @display.size[:height])
+      LibGL.flush
     end
 
     def add_line
       constraints = GUI::ConstraintFactory.get_default
-      constraints.x = GUI::RelativeConstraint.new(0)
+      constraints.x = GUI::PixelConstraint.new(20)
       constraints.y = GUI::CenterConstraint.new
       constraints.width = GUI::RelativeConstraint.new(1)
       constraints.height = GUI::PixelConstraint.new(20)

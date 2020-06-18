@@ -24,6 +24,7 @@ module GUI
       LibGL.disable(LibGL::DEPTH_TEST)
       @shader.start
       @quad.bind
+      puts "start"
       ui_data.each do |ui|
         render_ui ui
       end
@@ -35,7 +36,8 @@ module GUI
     end
 
     def render_ui(ui : GUI::RenderData)
-      @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.blue, ui.color.green)
+      puts ui.to_s
+      @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.green, ui.color.blue)
       @shader.transformation_matrix = ui.transformation
       LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
     end

@@ -10,6 +10,8 @@ module GUI
     @solver : Kiwi::Solver
     @size : RenderLoop::Size
 
+    property size
+
     def initialize
       @root = GUI::Component.new
       @solver = Kiwi::Solver.new
@@ -18,9 +20,6 @@ module GUI
 
     def add(component : GUI::Component, constraints : GUI::Constraints)
       @root.add component, constraints
-    end
-
-    def resize(@size : RenderLoop::Size)
     end
 
     def to_render_data : Array(GUI::RenderData)
@@ -42,9 +41,7 @@ module GUI
       @root.constrain(@solver, display_constraints, root_contraints)
       @solver.update_variables
       # TODO: we don't actually need to use these. This should be refactored.
-      data = @root.to_render_data(vh.value, vw.value, root_contraints)
-      puts data[1].to_s
-      data
+      @root.to_render_data(vh.value, vw.value, root_contraints)
     end
   end
 end

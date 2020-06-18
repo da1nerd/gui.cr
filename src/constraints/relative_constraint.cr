@@ -3,6 +3,9 @@ require "./constraint.cr"
 module GUI
   class RelativeConstraint < Constraint
     def initialize(@ratio : Float32)
+      if @ratio < 0 || @ratio > 1
+        raise Exception.new("Out of bounds. Relative constraints must be between 0 and 1")
+      end
       super()
     end
 
