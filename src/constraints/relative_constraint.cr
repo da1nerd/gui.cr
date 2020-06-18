@@ -19,7 +19,6 @@ module GUI
     end
 
     protected def constrain_width(solver : Kiwi::Solver, own_self : GUI::Constraints, parent : GUI::Constraints)
-      pp (@var == parent.width.var * @ratio).to_s
       solver.add_constraint @var == parent.width.var * @ratio
     end
 

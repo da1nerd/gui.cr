@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "lldb",
+        "request": "launch",
+        "name": "crystal: debug gui_spec",
+        // "preLaunchTask": "crystal: build gui_spec",
+        "program": "${workspaceFolder}/bin/gui_spec",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "initCommands": [
+          "command script import /home/joel/git/crystal-lang/crystal/etc/lldb/crystal_formatters.py"
+        ]
+      }
+    ]
+  }

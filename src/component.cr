@@ -24,27 +24,41 @@ module GUI
 
     # Compiles the constraints so the solver can determine values
     def constrain(solver : Kiwi::Solver, parent_constraints : GUI::Constraints, my_constraints : GUI::Constraints)
+      # constraint self
+      my_constraints.constrain(solver, parent_constraints)
+
+      # constrain children
       @children.each do |component, child_constraints|
-        my_constraints.constrain(solver, parent_constraints)
         component.constrain(solver, my_constraints, child_constraints)
       end
     end
 
     # Converts the constrained components to an array of `RenderData`.
     # You must `#constrain` this component and `Kiwi::Solver#update_variables` first.
-    def to_render_data(vh : Float32, vw : Float32) : Array(GUI::RenderData)
+    def to_render_data(vh : Float32, vw : Float32, my_constraints : GUI::Constraints) : Array(GUI::RenderData)
       data = [] of GUI::RenderData
+      data << GUI::RenderData.new(
+        x: my_constraints.x.value,
+        y: my_constraints.y.value,
+        width: my_constraints.width.value,
+        height: my_constraints.height.value,
+        vh: vh,
+        vw: vw,
+        color: @color
+      )
+
+
       @children.each do |component, constraints|
-        data << GUI::RenderData.new(
-          x: constraints.x.value,
-          y: constraints.y.value,
-          width: constraints.width.value,
-          height: constraints.height.value,
-          vh: vh,
-          vw: vw,
-          color: component.color
-        )
-        data += component.to_render_data(vh, vw)
+        # data << GUI::RenderData.new(
+        #   x: constraints.x.value,
+        #   y: constraints.y.value,
+        #   width: constraints.width.value,
+        #   height: constraints.height.value,
+        #   vh: vh,
+        #   vw: vw,
+        #   color: component.color
+        # )
+        data += component.to_render_data(vh, vw, constraints)
       end
       return data
     end

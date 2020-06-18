@@ -11,7 +11,7 @@ module GUI::ConstraintFactory
     y = GUI::RelativeConstraint.new(0)
     width = GUI::RelativeConstraint.new(1)
     height = GUI::RelativeConstraint.new(1)
-    GUI::Constraints.new(x, y, width, height)
+    GUI::Constraints.new(x: x, y: y, width: width, height: height)
   end
 
   def get_default : GUI::Constraints
@@ -19,6 +19,6 @@ module GUI::ConstraintFactory
     y = GUI::RelativeConstraint.new(0)
     width = GUI::RelativeConstraint.new(1)
     height = GUI::RelativeConstraint.new(1)
-    GUI::Constraints.new(x, y, width, height)
+    GUI::Constraints.new(x: x, y: y, width: width, height: height)
   end
 end

@@ -10,8 +10,12 @@ module GUI
 
     def transformation
       translate_matrix = Matrix4f.new.init_translation(@x, @y, 0f32)
-      scale_matrix = Matrix4f.new.init_scale(@vw / @width, @vh / @height, 1f32)
+      scale_matrix = Matrix4f.new.init_scale(@width / @vw, @height / @vh, 1f32)
       translate_matrix * scale_matrix
+    end
+
+    def to_s(io : IO)
+      io << "x : #{@x}, y : #{@y}, width : #{@width}, height : #{@height}, vw : #{@vw}, vh : #{@vh}"
     end
   end
 end

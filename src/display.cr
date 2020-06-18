@@ -27,22 +27,23 @@ module GUI
       # TODO: eventually we want to reuse this.
       @solver = Kiwi::Solver.new
 
-      vw = GUI::PixelConstraint.new(0)
-      vh = GUI::PixelConstraint.new(0)
+      vw = GUI::PixelConstraint.new(@size[:width])
+      vh = GUI::PixelConstraint.new(@size[:height])
       vx = GUI::PixelConstraint.new(0)
       vy = GUI::PixelConstraint.new(0)
-      display_constraints = GUI::Constraints.new(vx, vy, vw, vh)
+      display_constraints = GUI::Constraints.new(x: vx, y: vy, width: vw, height: vh)
 
       @solver.add_constraint vw.var == @size[:width]
       @solver.add_constraint vh.var == @size[:height]
       @solver.add_constraint vx.var == 0
       @solver.add_constraint vy.var == 0
 
-      @root.constrain(@solver, display_constraints, GUI::ConstraintFactory.get_fill)
+      root_contraints = GUI::ConstraintFactory.get_fill
+      @root.constrain(@solver, display_constraints, root_contraints)
       @solver.update_variables
-      data = @root.to_render_data(vh.value, vw.value)
-      pp data
-      exit # testing
+      # TODO: we don't actually need to use these. This should be refactored.
+      data = @root.to_render_data(vh.value, vw.value, root_contraints)
+      puts data[1].to_s
       data
     end
   end

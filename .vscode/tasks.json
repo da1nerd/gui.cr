@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "crystal: build gui_spec",
+      "type": "shell",
+      "command": "/snap/bin/crystal build --debug ${workspaceFolder}/spec/gui_spec.cr -o ${workspaceFolder}/bin/gui_spec"
+    }
+  ]
+}
