@@ -3,12 +3,12 @@ require "./color.cr"
 
 module GUI
   class Block < GUI::Component
-    @color : GUI::Color
+    # color : GUI::Color
 
-    property color
+    # property color
 
-    def initialize(@color : GUI::Color)
-      super()
+    def initialize(color : GUI::Color)
+      super(color)
     end
   end
 end

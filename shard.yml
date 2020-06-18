@@ -13,3 +13,6 @@ dependencies:
     github: neutrinog/kiwi-crystal
   prism:
     github: neutrinog/prism
+  event_handler:
+    github: crystallabs/event_handler
+    version: 0.15.2

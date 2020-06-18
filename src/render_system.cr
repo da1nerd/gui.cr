@@ -27,8 +27,8 @@ module GUI
       prepare
       # NOTE: We won't use the entity system to add displays
       #  So eventually we'll just have a single display here
-      @guis.each do |e|
-        @ui_renderer.render(e.get(GUI::Display).as(GUI::Display).to_render_data)
+      @guis.each do |g|
+        @ui_renderer.render(g.get(GUI::Display).as(GUI::Display).to_render_data)
       end
     end
 

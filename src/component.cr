@@ -5,10 +5,15 @@ module GUI
   class Component
     @animator : GUI::Animator
     @children : Hash(GUI::Component, GUI::Constraints)
+    @color : GUI::Color
 
-    getter animator
+    getter animator, color
 
     def initialize
+      initialize(GUI::Color::WHITE)
+    end
+
+    def initialize(@color : GUI::Color)
       @children = {} of GUI::Component => GUI::Constraints
       @animator = GUI::Animator.new
     end
@@ -17,15 +22,29 @@ module GUI
       @children[component] = constraints
     end
 
-    def to_render_data : Array(GUI::RenderData)
+    # Compiles the constraints so the solver can determine values
+    def constrain(solver : Kiwi::Solver, parent_constraints : GUI::Constraints, my_constraints : GUI::Constraints)
+      @children.each do |component, child_constraints|
+        my_constraints.constrain(solver, parent_constraints)
+        component.constrain(solver, my_constraints, child_constraints)
+      end
+    end
+
+    # Converts the constrained components to an array of `RenderData`.
+    # You must `#constrain` this component and `Kiwi::Solver#update_variables` first.
+    def to_render_data(vh : Float32, vw : Float32) : Array(GUI::RenderData)
       data = [] of GUI::RenderData
       @children.each do |component, constraints|
-        x = constraints.x
-        y = constraints.y
-        width = constraints.width
-        height = constraints.height
-        # TODO: solve constraints
-        data << GUI::RenderData.new(x.value, y.value, width.value, height.value, GUI::Color::GREY)
+        data << GUI::RenderData.new(
+          x: constraints.x.value,
+          y: constraints.y.value,
+          width: constraints.width.value,
+          height: constraints.height.value,
+          vh: vh,
+          vw: vw,
+          color: component.color
+        )
+        data += component.to_render_data(vh, vw)
       end
       return data
     end
