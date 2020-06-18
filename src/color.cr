@@ -6,8 +6,8 @@ module GUI
     GREY  = Color.new(0.5, 0.5, 0.5)
     BLACK = Color.new(0, 0, 0)
     RED   = Color.new(1, 0, 0)
-    BLUE   = Color.new(0, 1, 0)
-    GREEN   = Color.new(0, 0, 1)
+    BLUE  = Color.new(0, 1, 0)
+    GREEN = Color.new(0, 0, 1)
 
     getter red, blue, green
 

@@ -9,7 +9,7 @@ module GUI
     end
 
     def transformation
-      translate_matrix = Matrix4f.new.init_translation(@x / @vw , @y / @vh, 0f32)
+      translate_matrix = Matrix4f.new.init_translation(@x / @vw, @y / @vh, 0f32)
       scale_matrix = Matrix4f.new.init_scale(@width / @vw, @height / @vh, 1f32)
       scale_matrix * translate_matrix
     end

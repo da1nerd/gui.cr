@@ -32,7 +32,6 @@ module GUI
     @[Override]
     def tick(tick : RenderLoop::Tick, input : RenderLoop::Input)
       @display.size = input.framebuffer_size
-
     end
 
     @[Override]

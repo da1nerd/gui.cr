@@ -47,7 +47,6 @@ module GUI
         color: @color
       )
 
-
       @children.each do |component, constraints|
         # data << GUI::RenderData.new(
         #   x: constraints.x.value,
