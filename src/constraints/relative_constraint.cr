@@ -22,11 +22,11 @@ module GUI
     end
 
     protected def constrain_width(solver : Kiwi::Solver, own_self : GUI::Constraints, parent : GUI::Constraints)
-      solver.add_constraint @var == parent.width.var * @ratio
+      solver.add_constraint @var <= parent.width.var * @ratio - own_self.x.var
     end
 
     protected def constrain_height(solver : Kiwi::Solver, own_self : GUI::Constraints, parent : GUI::Constraints)
-      solver.add_constraint @var == parent.height.var * @ratio
+      solver.add_constraint @var <= parent.height.var * @ratio - own_self.y.var
     end
   end
 end

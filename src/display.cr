@@ -5,6 +5,7 @@ require "prism"
 require "kiwi"
 
 module GUI
+  # The `Display` manages all of the UI components.
   class GUI::Display < Crash::Component
     @root : GUI::Component
     @solver : Kiwi::Solver
@@ -18,12 +19,14 @@ module GUI
       @size = {width: 0, height: 0}
     end
 
+    # Adds a component to the display
     def add(component : GUI::Component, constraints : GUI::Constraints)
       @root.add component, constraints
     end
 
+    # Converts the display to an array of `RenderData` that can be sent to the renderer.
     def to_render_data : Array(GUI::RenderData)
-      # TODO: eventually we want to reuse this.
+      # TODO: eventually we want to reuse this instead of recreating it each time.
       @solver = Kiwi::Solver.new
 
       vw = GUI::PixelConstraint.new(@size[:width])

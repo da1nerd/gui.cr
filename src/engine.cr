@@ -48,7 +48,7 @@ module GUI
       constraints.x = GUI::PixelConstraint.new(20)
       constraints.y = GUI::CenterConstraint.new
       constraints.width = GUI::RelativeConstraint.new(1)
-      constraints.height = GUI::PixelConstraint.new(20)
+      constraints.height = GUI::PixelConstraint.new(23)
       @display.add GUI::Block.new(GUI::Color::WHITE), constraints
     end
   end
