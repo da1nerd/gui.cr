@@ -15,9 +15,11 @@ module GUI
     end
 
     def constrain_width(solver : Kiwi::Solver, own_self : GUI::Constraints, parent : GUI::Constraints)
+      raise Exception.new("Centering width is not supported")
     end
 
     def constrain_height(solver : Kiwi::Solver, own_self : GUI::Constraints, parent : GUI::Constraints)
+      raise Exception.new("Centering height is not supported")
     end
   end
 end
