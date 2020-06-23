@@ -40,8 +40,7 @@ module GUI
       root_contraints = GUI::ConstraintFactory.get_fill
       @root.constrain(@solver, display_constraints, root_contraints)
       @solver.update_variables
-      # TODO: we don't actually need to use these. This should be refactored.
-      @root.to_render_data(vh.value, vw.value, root_contraints)
+      @root.children_to_render_data(vh.value, vw.value)
     end
   end
 end

@@ -33,8 +33,7 @@ module GUI
       end
     end
 
-    # Converts the constrained components to an array of `RenderData`.
-    # You must `#constrain` this component and `Kiwi::Solver#update_variables` first.
+    # Converts this component and it's children to `RenderData`
     def to_render_data(vh : Float32, vw : Float32, my_constraints : GUI::Constraints) : Array(GUI::RenderData)
       data = [] of GUI::RenderData
       data << GUI::RenderData.new(
@@ -46,17 +45,14 @@ module GUI
         vw: vw,
         color: @color
       )
+      data + children_to_render_data(vh, vw)
+    end
 
+    # Converts the constrained components to an array of `RenderData`.
+    # You must `#constrain` this component and `Kiwi::Solver#update_variables` first.
+    def children_to_render_data(vh : Float32, vw : Float32) : Array(GUI::RenderData)
+      data = [] of GUI::RenderData
       @children.each do |component, constraints|
-        # data << GUI::RenderData.new(
-        #   x: constraints.x.value,
-        #   y: constraints.y.value,
-        #   width: constraints.width.value,
-        #   height: constraints.height.value,
-        #   vh: vh,
-        #   vw: vw,
-        #   color: component.color
-        # )
         data += component.to_render_data(vh, vw, constraints)
       end
       return data
