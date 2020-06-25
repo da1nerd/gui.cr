@@ -30,7 +30,7 @@ module GUI
       # adds a full grey background to the screen (because it has no constraints)
       # @display.add GUI::Block.new(GUI::Color::GREY), GUI::ConstraintFactory.get_fill
 
-      # add_line
+      add_line
       add_slider
     end
 
@@ -57,10 +57,10 @@ module GUI
 
     def add_line
       constraints = GUI::ConstraintFactory.get_default
-      constraints.x = GUI::PixelConstraint.new(20)
-      constraints.y = GUI::CenterConstraint.new
-      constraints.width = GUI::RelativeConstraint.new(1)
-      constraints.height = GUI::PixelConstraint.new(23)
+      constraints.x = GUI::CenterConstraint.new
+      constraints.y = GUI::PixelConstraint.new(20)
+      constraints.width = GUI::PixelConstraint.new(23)
+      constraints.height = GUI::RelativeConstraint.new(1)
       @display.add GUI::Block.new(GUI::Color::WHITE), constraints
     end
   end
