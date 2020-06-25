@@ -10,6 +10,8 @@ module GUI
     getter animator, color
 
     def initialize
+      # TODO: the base component class should not require a color.
+      #  This will allow us to wrap things together in a bare component.
       initialize(GUI::Color::RED)
     end
 

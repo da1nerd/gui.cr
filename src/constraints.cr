@@ -7,8 +7,8 @@ module GUI
     @y : GUI::Constraint
     @width : GUI::Constraint
     @height : GUI::Constraint
-
-    getter x, y, width, height
+    @name : String?
+    getter x, y, width, height, name
 
     def initialize(x : GUI::Constraint, y : GUI::Constraint, width : GUI::Constraint, height : GUI::Constraint)
       @x = x
@@ -23,9 +23,24 @@ module GUI
         # Sets the constraint for "{{t}}".
         def {{t.id}}=(@{{t.id}} : GUI::Constraint)
           # TRICKY: set the variable names here so it's easier to debug logs.
-          @{{t.id}}.name = "{{t.id}}"
+          if name = @name
+            @{{t.id}}.name = "#{name}.{{t.id}}"
+          else
+            @{{t.id}}.name = "{{t.id}}"
+          end
         end
       {% end %}
+
+      # Sets the name of the constraints.
+      def name=(@name : String)
+        {% for t in types %}
+          if name = @name
+            @{{t.id}}.name = "#{name}.{{t.id}}"
+          else
+            @{{t.id}}.name = "{{t.id}}"
+          end
+        {% end %}
+      end
     {% end %}
 
     # TODO: set the constraint names when the properties are updated as well.

@@ -5,6 +5,7 @@ require "./block.cr"
 require "./display.cr"
 require "./color.cr"
 require "./constraint_factory.cr"
+require "./slider.cr"
 
 module GUI
   class Engine < Prism::Engine
@@ -15,12 +16,12 @@ module GUI
     def init
       # Register some default systems
       add_system Prism::Systems::InputSystem.new, 1
-      add_system GUI::RenderSystem.new, 2
+      add_system GUI::RenderSystem.new(@display), 2
       # TODO: The UI should not use entitites to enter the rendering system.
       #  we should simply add a display to the render system on init
-      entity = Prism::Entity.new
-      entity.add @display
-      add_entity entity
+      # entity = Prism::Entity.new
+      # entity.add @display
+      # add_entity entity
 
       draw_stuff
     end
@@ -29,7 +30,8 @@ module GUI
       # adds a full grey background to the screen (because it has no constraints)
       # @display.add GUI::Block.new(GUI::Color::GREY), GUI::ConstraintFactory.get_fill
 
-      add_line
+      # add_line
+      add_slider
     end
 
     @[Override]
@@ -39,8 +41,18 @@ module GUI
 
     @[Override]
     def flush
-      LibGL.viewport(0, 0, @display.size[:width], @display.size[:height])
+      LibGL.viewport(0, 0, @display.width, @display.height)
       LibGL.flush
+    end
+
+    def add_slider
+      constraints = GUI::ConstraintFactory.get_default
+      constraints.name = "Slider"
+      constraints.x = GUI::RelativeConstraint.new(0)
+      constraints.y = GUI::CenterConstraint.new
+      constraints.width = GUI::RelativeConstraint.new(1)
+      constraints.height = GUI::PixelConstraint.new(50)
+      @display.add Slider.new, constraints
     end
 
     def add_line

@@ -11,12 +11,20 @@ module GUI
     @solver : Kiwi::Solver
     @size : RenderLoop::Size
 
-    property size
+    setter size
 
     def initialize
       @root = GUI::Component.new
       @solver = Kiwi::Solver.new
       @size = {width: 0, height: 0}
+    end
+
+    def width
+      @size[:width]
+    end
+
+    def height
+      @size[:height]
     end
 
     # Adds a component to the display
