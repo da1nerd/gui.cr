@@ -2,14 +2,6 @@ require "crash"
 require "annotation"
 require "./renderer.cr"
 
-lib LibGL
-  MATRIX_MODE = 0x0BA0_u32
-  MODELVIEW   = 0x1700_u32
-  PROJECTION  = 0x1701_u32
-  fun matrix_mode = glMatrixMode(mode : Enum) : Void
-  fun load_identity = glLoadIdentity : Void
-end
-
 module GUI
   # A default system for rendering `Prism::Entity`s.
   # TODO: rename this to GUISystem
@@ -58,18 +50,9 @@ module GUI
     def prepare
       LibGL.clear(LibGL::COLOR_BUFFER_BIT | LibGL::DEPTH_BUFFER_BIT)
       LibGL.clear_color(BACKGROND_COLOR.x, BACKGROND_COLOR.y, BACKGROND_COLOR.z, 1f32)
-      LibGL.front_face(LibGL::CW)
+      LibGL.front_face(LibGL::CCW)
       LibGL.cull_face(LibGL::BACK)
-      # LibGL.enable(LibGL::CULL_FACE)
-      # LibGL.enable(LibGL::DEPTH_TEST)
-      # LibGL.enable(LibGL::DEPTH_CLAMP)
-      # LibGL.enable(LibGL::TEXTURE_2D)
-
-      LibGL.matrix_mode(LibGL::PROJECTION)
-      LibGL.load_identity
-      LibGL.ortho(0, @display.width, 0, @display.height, 0, 1)
-      LibGL.matrix_mode(LibGL::MODELVIEW)
-      LibGL.load_identity
+      LibGL.enable(LibGL::CULL_FACE)
     end
   end
 end
