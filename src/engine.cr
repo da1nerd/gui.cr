@@ -48,9 +48,9 @@ module GUI
     def add_slider
       constraints = GUI::ConstraintFactory.get_default
       constraints.name = "Slider"
-      constraints.x = GUI::RelativeConstraint.new(0)
+      constraints.x = GUI::PixelConstraint.new(10)
       constraints.y = GUI::CenterConstraint.new
-      constraints.width = GUI::RelativeConstraint.new(1)
+      constraints.width = GUI::RelativeConstraint.new(0.5)
       constraints.height = GUI::PixelConstraint.new(50)
       @display.add Slider.new, constraints
     end

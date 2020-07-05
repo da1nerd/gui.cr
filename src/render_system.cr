@@ -30,15 +30,6 @@ module GUI
       @shader.start
       @quad.bind
       @display.to_render_data.each do |ui|
-        # ui = RenderData.new(
-        #   x: 0f32,
-        #   y: 0f32,
-        #   width: 50f32,
-        #   height: 50f32,
-        #   vh: @display.height.to_f32,
-        #   vw: @display.width.to_f32,
-        #   color: Color::RED
-        # )
         @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.green, ui.color.blue)
         @shader.transformation_matrix = ui.transformation
         LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
