@@ -9,6 +9,8 @@ module GUI
 
     getter color
 
+    #
+    # *vh* is the height of the view and *vw* is the width of the view
     def initialize(x : Float32, y : Float32, width : Float32, height : Float32, vh : Float32, vw : Float32, @color : GUI::Color)
       # move object origin to top left corner then,
       # scale coordinates to -1..1

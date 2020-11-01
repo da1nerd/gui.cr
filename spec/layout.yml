@@ -1,0 +1,24 @@
+layout:
+    x: 0.0
+    y: 0.0
+    width: 200.0
+    height: 300.0
+    children:
+        header:
+            height: 10.0
+        body:
+            children:
+                ancestors:
+                    height: 10.0
+                body_content:
+                    children:
+                        leader_groups:
+                            width: 30.0
+                        generations:
+                            width: 10.0
+                        graph:
+        metrics:
+            height: 50.0
+
+# TODO: allow definine any layout object at the root level in order to
+# make it easier to read the root layout object.

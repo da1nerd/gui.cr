@@ -9,8 +9,8 @@ crystal: 0.35.1
 license: MIT
 
 dependencies:
-  kiwi:
-    github: neutrinog/kiwi-crystal
+  layout:
+    github: da1nerd/layout.cr
   prism:
     github: neutrinog/prism
   event_handler:
