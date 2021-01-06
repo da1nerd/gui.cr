@@ -13,7 +13,6 @@ module GUI
     @solver : Kiwi::Solver
 
     def initialize(@display : BlockHolder)
-      # TODO: we would need to solve for any changes.
       @solver = Kiwi::Solver.new
       @shader = GUI::Shader.new
       @quad = Prism::Model.load_2f([-1, 1, -1, -1, 1, 1, 1, -1] of Float32)
@@ -31,7 +30,8 @@ module GUI
       prepare
       @shader.start
       @quad.bind
-      ::Layout.solve(@display.block, @solver)
+      # TODO: pass in the solver so we can reuse prior calculations
+      @display.solve
       @display.block.each do |ui|
         puts ui.label
         puts "x:#{ui.x.value}, y:#{ui.y.value}, h:#{ui.height.value}, w:#{ui.width.value}"
@@ -40,13 +40,10 @@ module GUI
         @shader.transformation_matrix = data.transformation
         LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
       end
-      #   @display.to_render_data.each do |ui|
-      #     @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.green, ui.color.blue)
-      #     @shader.transformation_matrix = ui.transformation
-      #     LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
-      #   end
       @quad.unbind
       @shader.stop
+      # rescue err
+      # puts err.message
     end
 
     def prepare

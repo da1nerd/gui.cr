@@ -11,6 +11,7 @@ license: MIT
 dependencies:
   layout:
     github: da1nerd/layout.cr
+    branch: main
   prism:
     github: neutrinog/prism
   event_handler:

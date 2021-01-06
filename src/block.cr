@@ -2,41 +2,47 @@ require "./component.cr"
 require "./color.cr"
 
 module Layout
-  struct Block
+  class Block
     # inject some color into the layout block
     @color : GUI::Color = GUI::Color::WHITE
 
     property color, label
-
-    # Add enumeration
-    def each(&block : ::Layout::Block ->)
-      yield self
-      if @children.size > 0
-        @children.each do |child|
-          child.each(&block)
-        end
-      end
-    end
   end
 end
 
 module GUI
   class BlockHolder
     @block : ::Layout::Block
-    property block
+    @solver : Kiwi::Solver
+    getter block
 
     def initialize
-      @block = ::Layout::Block.new
+      @solver = Kiwi::Solver.new
+      @block = ::Layout::Block.new("display")
+      @block.x.eq 0
+      @block.y.eq 0
+      @solver.add_edit_variable(@block.width.variable, Kiwi::Strength::STRONG)
+      @solver.add_edit_variable(@block.height.variable, Kiwi::Strength::STRONG)
     end
-  end
 
-  class Block < GUI::Component
-    # color : GUI::Color
+    def width=(size)
+      @solver.remove_edit_variable(@block.width.variable)
+      @solver.add_edit_variable(@block.width.variable, Kiwi::Strength::STRONG)
+      @solver.suggest_value(@block.width.variable, size)
+    end
 
-    # property color
+    def height=(size)
+      @solver.remove_edit_variable(@block.height.variable)
+      @solver.add_edit_variable(@block.height.variable, Kiwi::Strength::STRONG)
+      @solver.suggest_value(@block.height.variable, size)
+    end
 
-    def initialize(color : GUI::Color)
-      super(color)
+    def load
+      ::Layout.solve(@block, @solver)
+    end
+
+    def solve
+      @solver.update_variables
     end
   end
 end

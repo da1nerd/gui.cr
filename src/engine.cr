@@ -9,6 +9,8 @@ require "./slider.cr"
 require "layout"
 
 module GUI
+  include Layout
+
   class Engine < Prism::Engine
     include EventHandler
     @display = BlockHolder.new
@@ -18,38 +20,53 @@ module GUI
       # Register some default systems
       add_system Prism::Systems::InputSystem.new, 1
       add_system GUI::LayoutRenderSystem.new(@display), 2
-      draw_stuff
+      draw_window
+    end
+
+    def draw_window
+      @display.block.color = GUI::Color::BLUE
+
+      drawer = Block.new("drawer")
+      drawer.color = GUI::Color::GREEN
+      drawer.height.eq @display.block.height
+      drawer.width.eq 200
+      drawer.x.eq 0
+
+      content = Block.new("content")
+      content.color = GUI::Color::RED
+      content.height.eq @display.block.height
+      content.width.gte 300
+      content.width.eq @display.block.width, Kiwi::Strength::STRONG
+      content.x.eq drawer.width + drawer.x
+
+      @display.block.children = [
+        drawer,
+        content
+      ]
+      @display.load
     end
 
     def draw_stuff
-      page = ::Layout::Block.new
-      page.label = "display"
+      page = ::Layout::Block.new("page")
       page.x = 0f64
       page.y = 0f64
 
-      header = ::Layout::Block.new
-      header.label = "header"
+      header = ::Layout::Block.new("header")
       header.height = 10f64
       header.color = GUI::Color::RED
-      body = ::Layout::Block.new
-      body.label = "body"
-      ancestors = ::Layout::Block.new
+      body = ::Layout::Block.new("body")
+      ancestors = ::Layout::Block.new("ancestors")
       ancestors.color = GUI::Color::BLUE
-      ancestors.label = "ancestors"
       ancestors.height = 10f64
-      body_content = ::Layout::Block.new(::Layout::Direction::ROW)
-      body_content.label = "body content"
-      leader_groups = ::Layout::Block.new
+      body_content = ::Layout::Block.new(::Layout::Direction::ROW, "body_content")
+      leader_groups = ::Layout::Block.new("leader_groups")
       leader_groups.color = GUI::Color::GREEN
-      leader_groups.label = "leader groups"
       leader_groups.width = 30f64
-      generations = ::Layout::Block.new
+      generations = ::Layout::Block.new("generations")
       generations.color = GUI::Color::RED
-      generations.label = "generations"
       generations.width = 10f64
-      graph = ::Layout::Block.new
+      graph = ::Layout::Block.new("graph")
       graph.color = GUI::Color::GREEN
-      graph.label = "graph"
       body_content.children = [
         leader_groups,
         generations,
@@ -59,9 +76,8 @@ module GUI
         ancestors,
         body_content,
       ]
-      metrics = ::Layout::Block.new
+      metrics = ::Layout::Block.new("metrics")
       metrics.color = GUI::Color::BLUE
-      metrics.label = "metrics"
       metrics.height = 50f64
       page.children = [
         header,
@@ -73,8 +89,9 @@ module GUI
 
     @[Override]
     def tick(tick : RenderLoop::Tick, input : RenderLoop::Input)
-      @display.block.width = input.framebuffer_size[:width].to_f64
-      @display.block.height = input.framebuffer_size[:height].to_f64
+      # TODO: this needs to update the variables in the system
+      @display.width = input.framebuffer_size[:width].to_f64
+      @display.height = input.framebuffer_size[:height].to_f64
     end
 
     @[Override]
