@@ -26,14 +26,10 @@ module GUI
     end
 
     def width=(size)
-      @solver.remove_edit_variable(@block.width.variable)
-      @solver.add_edit_variable(@block.width.variable, Kiwi::Strength::STRONG)
       @solver.suggest_value(@block.width.variable, size)
     end
 
     def height=(size)
-      @solver.remove_edit_variable(@block.height.variable)
-      @solver.add_edit_variable(@block.height.variable, Kiwi::Strength::STRONG)
       @solver.suggest_value(@block.height.variable, size)
     end
 
