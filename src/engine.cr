@@ -30,18 +30,52 @@ module GUI
       drawer.color = GUI::Color::GREEN
       drawer.height.eq @display.block.height
       drawer.width.eq 200
-      drawer.x.eq 0
+      drawer.x.eq 0, Kiwi::Strength::MEDIUM
 
       content = Block.new("content")
       content.color = GUI::Color::RED
       content.height.eq @display.block.height
       content.width.gte 300
-      content.width.eq @display.block.width, Kiwi::Strength::STRONG
+      content.width.eq @display.block.width, Kiwi::Strength::WEAK
       content.x.eq drawer.width + drawer.x
+      content.x.lte @display.block.width - content.width
+
+      header = Block.new("header")
+      header.color = GUI::Color::GRAY900
+      header.height.eq 50
+      header.width.eq content.width
+      header.x.eq content.x
+      header.y.eq @display.block.y
+      content.y.eq header.y + header.height
+
+      title = Block.new("title")
+      title.color = GUI::Color::BLUE
+      title.height.eq 20
+      title.width.eq 200
+      title.y.eq content.y + 50
+      title.x.eq content.x + 50
+
+      short_card = Block.new("short_card")
+      short_card.color = GUI::Color::BLUE
+      short_card.height.eq 200
+      short_card.width.eq content.width - 100
+      short_card.y.eq title.y + title.height + 50
+      short_card.x.eq title.x
+
+      tall_card = Block.new("tall_card")
+      tall_card.color = GUI::Color::BLUE
+      tall_card.height.eq 600
+      tall_card.width.eq short_card.width
+      tall_card.y.eq short_card.y + short_card.height + 50
+      tall_card.x.eq short_card.x
 
       @display.block.children = [
         drawer,
-        content
+        content,
+        header,
+        title,
+        short_card,
+        tall_card
       ]
       @display.load
     end

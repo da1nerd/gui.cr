@@ -25,18 +25,22 @@ module GUI
       @solver.add_edit_variable(@block.height.variable, Kiwi::Strength::STRONG)
     end
 
+    # Sets the width of the display
     def width=(size)
       @solver.suggest_value(@block.width.variable, size)
     end
 
+    # Sets the width of the display
     def height=(size)
       @solver.suggest_value(@block.height.variable, size)
     end
 
+    # Loads all of the constraints into the solver
     def load
       ::Layout.solve(@block, @solver)
     end
 
+    # Updates the variables
     def solve
       @solver.update_variables
     end
