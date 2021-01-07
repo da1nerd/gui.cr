@@ -19,8 +19,8 @@ module GUI
     def initialize
       @solver = Kiwi::Solver.new
       @block = ::Layout::Block.new("display")
-      @block.x.eq 0
-      @block.y.eq 0
+      @block.top.eq 0
+      @block.left.eq 0
       @solver.add_edit_variable(@block.width.variable, Kiwi::Strength::STRONG)
       @solver.add_edit_variable(@block.height.variable, Kiwi::Strength::STRONG)
     end
