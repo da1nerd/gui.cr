@@ -4,12 +4,8 @@ require "kiwi"
 module GUI
   class Display < Layout::Block
     @solver : Kiwi::Solver
-
+    
     def initialize
-      initialize("display")
-    end
-
-    def initialize(@label)
       super
       @solver = Kiwi::Solver.new
       top.eq 0
