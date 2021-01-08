@@ -13,7 +13,7 @@ module GUI
 
   class Engine < Prism::Engine
     include EventHandler
-    @display = BlockHolder.new
+    @display = Display.new
 
     @[Override]
     def init
@@ -24,28 +24,28 @@ module GUI
     end
 
     def draw_window
-      @display.block.color = GUI::Color::BLUE
+      @display.color = GUI::Color::BLUE
 
       drawer = Block.new("drawer")
       drawer.color = GUI::Color::GREEN
-      drawer.height.eq @display.block.height
+      drawer.height.eq @display.height
       drawer.width.eq 200
-      drawer.left.eq 0, Kiwi::Strength::MEDIUM
+      drawer.left.eq 0, :MEDIUM
 
       content = Block.new("content")
       content.color = GUI::Color::RED
-      content.height.eq @display.block.height
+      content.height.eq @display.height
       content.width.gte 300
-      content.width.eq @display.block.width, Kiwi::Strength::WEAK
+      content.width.eq @display.width, :WEAK
       content.left.eq drawer.right
-      content.left.lte @display.block.width - content.width
+      content.left.lte @display.width - content.width
 
       header = Block.new("header")
       header.color = GUI::Color::GRAY900
       header.height.eq 50
       header.width.eq content.width
       header.left.eq content.left
-      header.top.eq @display.block.top
+      header.top.eq @display.top
       content.top.eq header.bottom
 
       title = Block.new("title")
@@ -69,15 +69,15 @@ module GUI
       tall_card.top.eq short_card.bottom + 50
       tall_card.left.eq short_card.left
 
-      @display.block.children = [
+      @display.children = [
         drawer,
         content,
         header,
         title,
         short_card,
-        tall_card
+        tall_card,
       ]
-      @display.load
+      @display.build
     end
 
     def draw_stuff
@@ -130,7 +130,7 @@ module GUI
 
     @[Override]
     def flush
-      LibGL.viewport(0, 0, @display.block.width.value, @display.block.height.value)
+      LibGL.viewport(0, 0, @display.width.value, @display.height.value)
       LibGL.flush
     end
   end

@@ -7,12 +7,12 @@ module GUI
   class LayoutRenderSystem < Crash::System
     # RGB
     BACKGROND_COLOR = Prism::Maths::Vector3f.new(0.80, 0.80, 0.80)
-    @display : BlockHolder
+    @display : Display
     @shader : GUI::Shader
     @quad : Prism::Model
     @solver : Kiwi::Solver
 
-    def initialize(@display : BlockHolder)
+    def initialize(@display : Display)
       @solver = Kiwi::Solver.new
       @shader = GUI::Shader.new
       @quad = Prism::Model.load_2f([-1, 1, -1, -1, 1, 1, 1, -1] of Float32)
@@ -32,10 +32,10 @@ module GUI
       @quad.bind
       # TODO: pass in the solver so we can reuse prior calculations
       @display.solve
-      @display.block.each do |ui|
+      @display.each do |ui|
         puts ui.label
         puts "x:#{ui.x.value}, y:#{ui.y.value}, h:#{ui.height.value}, w:#{ui.width.value}"
-        data = RenderData.new(ui.x.value.to_f32, ui.y.value.to_f32, ui.width.value.to_f32, ui.height.value.to_f32, @display.block.height.value.to_f32, @display.block.width.value.to_f32, ui.color)
+        data = RenderData.new(ui.x.value.to_f32, ui.y.value.to_f32, ui.width.value.to_f32, ui.height.value.to_f32, @display.height.value.to_f32, @display.width.value.to_f32, ui.color)
         @shader.color = Prism::Maths::Vector3f.new(data.color.red, data.color.green, data.color.blue)
         @shader.transformation_matrix = data.transformation
         LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
