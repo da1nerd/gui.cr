@@ -1,69 +1,41 @@
 require "./animator.cr"
-require "./render_data.cr"
+require "./color.cr"
+require "layout"
+require "uuid"
 
 module GUI
-  class Component
+  class Component < Layout::Block
     @animator : GUI::Animator
-    @children : Hash(GUI::Component, GUI::Constraints)
     @color : GUI::Color
 
-    getter animator, color
+    getter animator
+    property color
 
     def initialize
-      # TODO: the base component class should not require a color.
-      #  This will allow us to wrap things together in a bare component.
-      initialize(GUI::Color::RED)
+      initialize(UUID.random.to_s)
     end
 
-    def initialize(@color : GUI::Color)
-      @children = {} of GUI::Component => GUI::Constraints
+    def initialize(label : String)
+      super(label)
       @animator = GUI::Animator.new
+      @color = GUI::Color::WHITE
     end
 
-    def add(component : GUI::Component, constraints : GUI::Constraints)
-      @children[component] = constraints
+    def children=(children)
+      super(children.map &.as(::Layout::Block))
     end
 
-    # Compiles the constraints so the solver can determine values
-    def constrain(solver : Kiwi::Solver, parent_constraints : GUI::Constraints, my_constraints : GUI::Constraints)
-      # constraint self
-      my_constraints.constrain(solver, parent_constraints)
+    def children
+      @children.map &.as(Component)
+    end
 
-      # constrain children
-      @children.each do |component, child_constraints|
-        component.constrain(solver, my_constraints, child_constraints)
+
+    # Enumerate over all components in this component's hierarchy.
+    def each(&block : Component ->)
+      yield self
+      children.each do |child|
+        child.each(&block)
       end
-    end
-
-    # Converts this component and it's children to `RenderData`
-    def to_render_data(vh : Float32, vw : Float32, my_constraints : GUI::Constraints) : Array(GUI::RenderData)
-      data = [] of GUI::RenderData
-      data << GUI::RenderData.new(
-        x: my_constraints.x.value,
-        y: my_constraints.y.value,
-        width: my_constraints.width.value,
-        height: my_constraints.height.value,
-        vh: vh,
-        vw: vw,
-        color: @color
-      )
-      data + children_to_render_data(vh, vw)
-    end
-
-    # Converts the constrained components to an array of `RenderData`.
-    # You must `#constrain` this component and `Kiwi::Solver#update_variables` first.
-    def children_to_render_data(vh : Float32, vw : Float32) : Array(GUI::RenderData)
-      data = [] of GUI::RenderData
-      @children.each do |component, constraints|
-        data += component.to_render_data(vh, vw, constraints)
-      end
-      return data
-    end
-
-    protected def init
-    end
-
-    protected def update
     end
   end
 end

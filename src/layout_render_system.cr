@@ -1,7 +1,7 @@
 require "crash"
 require "annotation"
 require "./renderer.cr"
-require "layout"
+require "./render_data.cr"
 
 module GUI
   class LayoutRenderSystem < Crash::System

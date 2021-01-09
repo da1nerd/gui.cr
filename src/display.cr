@@ -1,12 +1,12 @@
-require "layout"
 require "kiwi"
+require "./component.cr"
 
 module GUI
-  class Display < Layout::Block
+  class Display < Component
     @solver : Kiwi::Solver
-    
+
     def initialize
-      super
+      super("display")
       @solver = Kiwi::Solver.new
       top.eq 0
       left.eq 0
