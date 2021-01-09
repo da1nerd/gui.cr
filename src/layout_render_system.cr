@@ -33,8 +33,8 @@ module GUI
       # TODO: pass in the solver so we can reuse prior calculations
       @display.solve
       @display.each do |ui|
-        puts ui.label
-        puts "x:#{ui.x.value}, y:#{ui.y.value}, h:#{ui.height.value}, w:#{ui.width.value}"
+        # puts ui.label
+        # puts "x:#{ui.x.value}, y:#{ui.y.value}, h:#{ui.height.value}, w:#{ui.width.value}"
         data = RenderData.new(ui.x.value.to_f32, ui.y.value.to_f32, ui.width.value.to_f32, ui.height.value.to_f32, @display.height.value.to_f32, @display.width.value.to_f32, ui.color)
         @shader.color = Prism::Maths::Vector3f.new(data.color.red, data.color.green, data.color.blue)
         @shader.transformation_matrix = data.transformation

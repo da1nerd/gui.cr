@@ -4,7 +4,6 @@ require "./layout_render_system.cr"
 require "./component.cr"
 require "./display.cr"
 require "./color.cr"
-require "./constraint_factory.cr"
 
 module GUI
   class Engine < Prism::Engine
@@ -14,8 +13,7 @@ module GUI
     @[Override]
     def init
       # Register some default systems
-      add_system Prism::Systems::InputSystem.new, 1
-      add_system GUI::LayoutRenderSystem.new(@display), 2
+      add_system GUI::LayoutRenderSystem.new(@display), 1
       draw_window
     end
 
@@ -50,6 +48,12 @@ module GUI
       title.width.eq 200
       title.top.eq content.top + 50
       title.center_x.eq content.center_x
+      title.on_mouse_in do |event|
+        title.color = GUI::Color::GREEN
+      end
+      title.on_mouse_out do |event|
+        title.color = GUI::Color::BLUE
+      end
 
       short_card = Component.new("short_card")
       short_card.color = GUI::Color::BLUE
@@ -57,6 +61,12 @@ module GUI
       short_card.width.eq content.width - 100
       short_card.top.eq title.bottom + 50
       short_card.left.eq content.left + 50
+      short_card.on_mouse_down do |event|
+        short_card.color = GUI::Color::GREEN
+      end
+      short_card.on_mouse_up do |event|
+        short_card.color = GUI::Color::BLUE
+      end
 
       tall_card = Component.new("tall_card")
       tall_card.color = GUI::Color::BLUE
@@ -78,9 +88,7 @@ module GUI
 
     @[Override]
     def tick(tick : RenderLoop::Tick, input : RenderLoop::Input)
-      # TODO: this needs to update the variables in the system
-      @display.width = input.framebuffer_size[:width].to_f64
-      @display.height = input.framebuffer_size[:height].to_f64
+      @display.trigger_input(tick: tick, input: input)
     end
 
     @[Override]

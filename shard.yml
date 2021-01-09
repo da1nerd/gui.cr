@@ -14,6 +14,7 @@ dependencies:
     branch: main
   prism:
     github: neutrinog/prism
+    branch: master
   event_handler:
     github: crystallabs/event_handler
     version: 0.15.2
