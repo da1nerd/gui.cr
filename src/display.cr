@@ -63,10 +63,6 @@ module GUI
       @last_mouse_pos = event.input.get_mouse_position
     end
 
-    private def capture(&block : RenderLoop::Input(CrystGLFW::Key, CrystGLFW::MouseButton), Component -> Nil)
-      block
-    end
-
     private def process_mouse_down(input : RenderLoop::Input)
       mouse_pos = input.get_mouse_position
       left_pressed = input.get_mouse_pressed(CrystGLFW::MouseButton::Left)
