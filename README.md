@@ -4,6 +4,9 @@
 
 A Graphical User Interface toolkit.
 
+(Jan 2021 update)
+![Peek 2021-01-17 00-16](https://user-images.githubusercontent.com/166412/104818296-5ec16b80-5859-11eb-8f57-a07466d61310.gif)
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:
