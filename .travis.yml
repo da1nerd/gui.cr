@@ -14,3 +14,8 @@ addons:
 script:
   - crystal spec -D ci --error-trace
   - crystal tool format --check
+
+after_success:
+  - crystal docs
+
+# TODO: deploy docs somewhere
