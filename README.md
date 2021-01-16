@@ -1,6 +1,6 @@
 # GUI
 [![GitHub release](https://img.shields.io/github/release/da1nerd/gui.cr.svg)](https://github.com/da1nerd/gui.cr/releases)
-[![Build Status](https://travis-ci.org/da1nerd/gui.cr.svg?branch=master)](https://travis-ci.org/da1nerd/gui.cr)
+[![Build Status](https://travis-ci.com/da1nerd/gui.cr.svg?branch=master)](https://travis-ci.com/da1nerd/gui.cr)
 
 A Graphical User Interface toolkit.
 
