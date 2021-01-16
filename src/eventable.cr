@@ -1,5 +1,4 @@
 module GUI::Eventable
-
   abstract class Event
     @propagate : Bool
 
