@@ -1,6 +1,6 @@
 # GUI
-[![GitHub release](https://img.shields.io/github/release/neutrinog/gui-crystal.svg)](https://github.com/neutrinog/gui-crystal/releases)
-[![Build Status](https://travis-ci.org/neutrinog/gui-crystal.svg?branch=master)](https://travis-ci.org/neutrinog/gui-crystal)
+[![GitHub release](https://img.shields.io/github/release/da1nerd/gui.cr.svg)](https://github.com/da1nerd/gui.cr/releases)
+[![Build Status](https://travis-ci.org/da1nerd/gui.cr.svg?branch=master)](https://travis-ci.org/da1nerd/gui.cr)
 
 A Graphical User Interface toolkit.
 
@@ -11,7 +11,7 @@ A Graphical User Interface toolkit.
    ```yaml
    dependencies:
      gui:
-       github: neutrinog/gui-crystal
+       github: da1nerd/gui.cr
    ```
 
 2. Run `shards install`
@@ -30,7 +30,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/neutrinog/gui-crystal/fork>)
+1. Fork it (<https://github.com/da1nerd/gui.cr/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -38,4 +38,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [Joel](https://github.com/neutrinog) - creator and maintainer
+- [Joel](https://github.com/da1nerd) - creator and maintainer

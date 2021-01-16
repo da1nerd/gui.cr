@@ -2,7 +2,7 @@ name: gui
 version: 0.1.0
 
 authors:
-  - Joel <joel@neutrinographics.com>
+  - Joel <da1nerd@pm.me>
 
 crystal: 0.35.1
 
@@ -13,7 +13,7 @@ dependencies:
     github: da1nerd/layout.cr
     branch: main
   prism:
-    github: neutrinog/prism
+    github: da1nerd/prism
     branch: master
   event_handler:
     github: crystallabs/event_handler
