@@ -18,11 +18,18 @@ module GUI
 
     delegate :x, :y, :left, :right, :top, :bottom, :center_x, :center_y, :height, :width, to: @block
 
+    # Triggered when a mouse button is pressed down while positioned over the `Component`
     event :mouse_down, x : Float64, y : Float64
+    # Triggered when a mouse button is released.
     event :mouse_up, x : Float64, y : Float64
+    # Triggered while the mouse is positioned over the bounding box of the `Component`
     event :hover, x : Float64, y : Float64
+    # Triggered when there is an input event.
+    # All of the other events are triggered based on the input received here.
     event :input, tick : RenderLoop::Tick, input : RenderLoop::Input(CrystGLFW::Key, CrystGLFW::MouseButton)
+    # Triggered when the mouse enters the bounding box of the `Component`
     event :mouse_in, x : Float64, y : Float64
+    # Triggered when the mouse leaves the bounding box of the `Component`
     event :mouse_out, x : Float64, y : Float64
 
     def initialize

@@ -4,6 +4,7 @@ require "./display.cr"
 require "./shader.cr"
 
 module GUI
+  # Renders the `Component`s on the screen.
   class RenderSystem < Crash::System
     BACKGROND_COLOR = Prism::Maths::Vector3f.new(0.80, 0.80, 0.80)
     @display : Display

@@ -3,6 +3,8 @@ require "./component.cr"
 require "annotation"
 
 module GUI
+  # The top-most `Component` in the component hierarchy.
+  # The display manages input events, and solves the layout constraints.
   class Display < Component
     @solver : Kiwi::Solver
     @last_mouse_pos : {x: Float64, y: Float64}
@@ -91,6 +93,7 @@ module GUI
         event = MouseUpEvent.new(**mouse_pos)
         self.each do |component|
           next unless event.propagate?
+          # TRICKY: only send mouse up events to the components that received the previous mouse down event.
           if left_released && component.intersects_point?(**down_pos.not_nil!)
             component.on_mouse_up(event)
           end

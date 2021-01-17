@@ -1,6 +1,7 @@
 # Adds tools to generate triggerable and capturable events.
 #
 module GUI::Eventable
+  # The base for all `Component` input events.
   abstract class Event
     @propagate : Bool
 
@@ -8,10 +9,12 @@ module GUI::Eventable
       @propagate = true
     end
 
+    # Checks if the event should continue to propagate down the `Component` tree.
     def propagate?
       @propagate
     end
 
+    # Stops the event from propagating down the `Component` tree.
     def stop_propagation
       @propagate = false
     end
@@ -20,8 +23,6 @@ module GUI::Eventable
   # Defines a new event handler.
   # This will create a new event type, event handler, and event trigger.
   macro event(event, *args)
-    @{{event.id}}_event_handler : Proc({{event.id.camelcase}}Event, Nil)?
-
     class {{event.id.camelcase}}Event < Event
       {% opts = args.map { |a| "@#{a}".id } %}
       getter {{*args}}
@@ -29,6 +30,8 @@ module GUI::Eventable
         @propagate = true
       end
     end
+
+    @{{event.id}}_event_handler : Proc({{event.id.camelcase}}Event, Nil)?
 
     # Executed on the "{{event.id}}" event.
     def on_{{event.id}}(event : {{event.id.camelcase}}Event)
