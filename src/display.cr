@@ -28,16 +28,19 @@ module GUI
       @solver.suggest_value(height.variable, size)
     end
 
-    # Loads all of the constraints into the solver
+    # Loads all of the constraints from every component in this hierarchy into the solver.
+    # This should only be ran once.
     def build
       self.each_constraint { |c| @solver.add_constraint(c) }
     end
 
-    # Calculates the layout dimensions
+    # Calculates the layout dimensions.
+    # This runs each time the screen is rendered
     def solve
       @solver.update_variables
     end
 
+    # Adds a component to the hierarchy
     def add(block : Layout::Block)
       @children << block
     end
