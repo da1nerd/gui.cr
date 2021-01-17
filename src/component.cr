@@ -6,13 +6,17 @@ require "annotations"
 require "./eventable.cr"
 
 module GUI
-  class Component < Layout::Block
+  class Component
     include Eventable
+    @children : Array(Component)
+    @block : ::Layout::Block
     @animator : GUI::Animator
     @color : GUI::Color
 
     getter animator
-    property color
+    property color, children
+
+    delegate :x, :y, :left, :right, :top, :bottom, :center_x, :center_y, :height, :width, to: @block
 
     event :mouse_down, x : Float64, y : Float64
     event :mouse_up, x : Float64, y : Float64
@@ -26,33 +30,35 @@ module GUI
     end
 
     def initialize(label : String)
-      super(label)
+      @children = [] of Component
+      @block = ::Layout::Block.new(label)
       @animator = GUI::Animator.new
       @color = GUI::Color::WHITE
     end
 
-    @[Override]
-    def children=(children)
-      super(children.map &.as(::Layout::Block))
-    end
-
-    @[Override]
-    def children
-      @children.map &.as(Component)
-    end
-
-    # Enumerate over all components in this component's hierarchy.
-    @[Override]
+    # Enumerate over all `Component`s in this `Component`'s hierarchy.
+    # This first yields the component itself, then it's children.
     def each(&block : Component ->)
       yield self
-      children.each do |child|
+      @children.each do |child|
         child.each(&block)
+      end
+    end
+
+    # Enumerate over all `Kiwi::Constraint`s in this `Component`'s hierarchy
+    def each_constraint(&block : Kiwi::Constraint ->)
+      @block.primitives.each do |p|
+        p.constraints.each { |c| yield c }
+      end
+
+      @children.each do |child|
+        child.each_constraint(&block)
       end
     end
 
     # Checks if the component intersects the point *x*, *y*
     def intersects_point?(x, y) : Bool
-      @left.value <= x && @right.value >= x && @top.value <= y && @bottom.value >= y
+      left.value <= x && right.value >= x && top.value <= y && bottom.value >= y
     end
 
     # Generates the matrix transformation used for drawing the component within the viewpoint.
