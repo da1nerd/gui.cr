@@ -1,18 +1,20 @@
 require "crash"
 require "annotation"
-require "./renderer.cr"
+require "./display.cr"
+require "./shader.cr"
+require "./render_data.cr"
 
 module GUI
-  # A default system for rendering `Prism::Entity`s.
-  # TODO: rename this to GUISystem
   class RenderSystem < Crash::System
     # RGB
     BACKGROND_COLOR = Prism::Maths::Vector3f.new(0.80, 0.80, 0.80)
-    @display : GUI::Display
+    @display : Display
     @shader : GUI::Shader
     @quad : Prism::Model
+    @solver : Kiwi::Solver
 
-    def initialize(@display : GUI::Display)
+    def initialize(@display : Display)
+      @solver = Kiwi::Solver.new
       @shader = GUI::Shader.new
       @quad = Prism::Model.load_2f([-1, 1, -1, -1, 1, 1, 1, -1] of Float32)
     end
@@ -29,13 +31,20 @@ module GUI
       prepare
       @shader.start
       @quad.bind
-      @display.to_render_data.each do |ui|
-        @shader.color = Prism::Maths::Vector3f.new(ui.color.red, ui.color.green, ui.color.blue)
-        @shader.transformation_matrix = ui.transformation
+      # TODO: pass in the solver so we can reuse prior calculations
+      @display.solve
+      @display.each do |ui|
+        # puts ui.label
+        # puts "x:#{ui.x.value}, y:#{ui.y.value}, h:#{ui.height.value}, w:#{ui.width.value}"
+        data = RenderData.new(ui.x.value.to_f32, ui.y.value.to_f32, ui.width.value.to_f32, ui.height.value.to_f32, @display.height.value.to_f32, @display.width.value.to_f32, ui.color)
+        @shader.color = Prism::Maths::Vector3f.new(data.color.red, data.color.green, data.color.blue)
+        @shader.transformation_matrix = data.transformation
         LibGL.draw_arrays(LibGL::TRIANGLE_STRIP, 0, @quad.vertex_count)
       end
       @quad.unbind
       @shader.stop
+      # rescue err
+      # puts err.message
     end
 
     def prepare

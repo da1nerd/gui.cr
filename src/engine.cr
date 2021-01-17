@@ -1,6 +1,6 @@
 require "prism"
 require "annotation"
-require "./layout_render_system.cr"
+require "./render_system.cr"
 require "./component.cr"
 require "./display.cr"
 require "./color.cr"
@@ -13,7 +13,7 @@ module GUI
     @[Override]
     def init
       # Register some default systems
-      add_system GUI::LayoutRenderSystem.new(@display), 1
+      add_system GUI::RenderSystem.new(@display), 1
       draw_window
     end
 

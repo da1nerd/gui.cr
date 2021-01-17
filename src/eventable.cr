@@ -1,3 +1,5 @@
+# Adds tools to generate triggerable and capturable events.
+#
 module GUI::Eventable
   abstract class Event
     @propagate : Bool
@@ -16,9 +18,9 @@ module GUI::Eventable
   end
 
   # Defines a new event handler.
+  # This will create a new event type, event handler, and event trigger.
   macro event(event, *args)
     @{{event.id}}_event_handler : Proc({{event.id.camelcase}}Event, Nil)?
-
 
     class {{event.id.camelcase}}Event < Event
       {% opts = args.map { |a| "@#{a}".id } %}
