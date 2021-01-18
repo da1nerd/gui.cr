@@ -21,7 +21,7 @@ module GUI
     # Triggered when a mouse button is pressed down while positioned over the `Component`
     event :mouse_down, button : CrystGLFW::MouseButton, x : Float64, y : Float64
     # Triggered when a mouse button is released.
-    event :mouse_up, x : Float64, y : Float64
+    event :mouse_up, button : CrystGLFW::MouseButton, x : Float64, y : Float64
     # Triggered while the mouse is positioned over the bounding box of the `Component`
     event :hover, x : Float64, y : Float64
     # Triggered when there is an input event.

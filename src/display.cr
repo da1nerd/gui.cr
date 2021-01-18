@@ -90,7 +90,7 @@ module GUI
       left_released = input.get_mouse_released(CrystGLFW::MouseButton::Left)
 
       if down_pos = @mouse_down_pos
-        event = MouseUpEvent.new(**mouse_pos)
+        event = MouseUpEvent.new(CrystGLFW::MouseButton::Left, **mouse_pos)
         self.each do |component|
           next unless event.propagate?
           # TRICKY: only send mouse up events to the components that received the previous mouse down event.
