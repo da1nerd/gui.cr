@@ -25,6 +25,12 @@ module GUI
       drawer.height.eq @display.height
       drawer.width.eq 200
       drawer.left.eq 0, :MEDIUM
+      drawer.on_key_down do |event|
+        drawer.color = GUI::Color::GRAY900
+      end
+      drawer.on_key_up do |event|
+        drawer.color = GUI::Color::GREEN
+      end
 
       content = Component.new("content")
       content.color = GUI::Color::RED

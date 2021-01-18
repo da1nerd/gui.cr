@@ -31,6 +31,10 @@ module GUI
     event :mouse_in, x : Float64, y : Float64
     # Triggered when the mouse leaves the bounding box of the `Component`
     event :mouse_out, x : Float64, y : Float64
+    # Triggered when a key is pressed
+    event :key_down, key : CrystGLFW::Key
+    # Triggered when a key is released
+    event :key_up, key : CrystGLFW::Key
 
     def initialize
       initialize(UUID.random.to_s)

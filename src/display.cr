@@ -68,11 +68,32 @@ module GUI
       process_hover event.input
       process_mouse_in event.input
       process_mouse_out event.input
+      process_key_down event.input
+      process_key_up event.input
       @last_mouse_pos = event.input.get_mouse_position
+    end
+
+    private def process_key_down(input : RenderLoop::Input)
+      if key = input.keys.keys.find { |k| input.get_key_pressed(k) }
+        event = KeyDownEvent.new(key)
+        self.each do |component|
+          component.on_key_down(event)
+        end
+      end
+    end
+
+    private def process_key_up(input : RenderLoop::Input)
+      if key = input.keys.keys.find { |k| input.get_key_released(k) }
+        event = KeyUpEvent.new(key)
+        self.each do |component|
+          component.on_key_up(event)
+        end
+      end
     end
 
     private def process_mouse_down(input : RenderLoop::Input)
       mouse_pos = input.get_mouse_position
+      # TODO: input.mouse_buttons is actually returning all the buttons
       if button = input.mouse_buttons.keys.find { |b| input.get_mouse_pressed(b) }
         # TODO: the down position needs to be mapped to the mouse button
         @mouse_down_pos[button] = mouse_pos
