@@ -6,14 +6,17 @@ module GUI
   # The top-most `Component` in the component hierarchy.
   # The display manages input events, and solves the layout constraints.
   class Display < Component
+    alias Point = {x: Float64, y: Float64}
+
     @solver : Kiwi::Solver
     @last_mouse_pos : {x: Float64, y: Float64}
-    @mouse_down_pos : {x: Float64, y: Float64}?
+    @mouse_down_pos : Hash(CrystGLFW::MouseButton, Point)
 
     def initialize
       super("display")
       @solver = Kiwi::Solver.new
       @last_mouse_pos = {x: 0f64, y: 0f64}
+      @mouse_down_pos = {} of CrystGLFW::MouseButton => Point
       top.eq 0
       left.eq 0
       @solver.add_edit_variable(width.variable, Kiwi::Strength::STRONG)
@@ -70,32 +73,32 @@ module GUI
 
     private def process_mouse_down(input : RenderLoop::Input)
       mouse_pos = input.get_mouse_position
-      left_pressed = input.get_mouse_pressed(CrystGLFW::MouseButton::Left)
-
-      if left_pressed
-        @mouse_down_pos = mouse_pos
-      end
-
-      event = MouseDownEvent.new(CrystGLFW::MouseButton::Left, **mouse_pos)
-      self.each do |component|
-        next unless event.propagate?
-        if left_pressed && component.intersects_point?(**mouse_pos)
-          component.on_mouse_down(event)
+      if button = input.mouse_buttons.keys.find { |b| input.get_mouse_pressed(b) }
+        # TODO: the down position needs to be mapped to the mouse button
+        @mouse_down_pos[button] = mouse_pos
+        event = MouseDownEvent.new(button, **mouse_pos)
+        self.each do |component|
+          next unless event.propagate?
+          if component.intersects_point?(**mouse_pos)
+            component.on_mouse_down(event)
+          end
         end
       end
     end
 
     private def process_mouse_up(input : RenderLoop::Input)
       mouse_pos = input.get_mouse_position
-      left_released = input.get_mouse_released(CrystGLFW::MouseButton::Left)
-
-      if down_pos = @mouse_down_pos
-        event = MouseUpEvent.new(CrystGLFW::MouseButton::Left, **mouse_pos)
-        self.each do |component|
-          next unless event.propagate?
-          # TRICKY: only send mouse up events to the components that received the previous mouse down event.
-          if left_released && component.intersects_point?(**down_pos.not_nil!)
-            component.on_mouse_up(event)
+      if button = input.mouse_buttons.keys.find { |b| input.get_mouse_released(b) }
+        if @mouse_down_pos.has_key?(button)
+          down_pos = @mouse_down_pos[button]
+          @mouse_down_pos.delete(button)
+          event = MouseUpEvent.new(CrystGLFW::MouseButton::Left, **mouse_pos)
+          self.each do |component|
+            next unless event.propagate?
+            # TRICKY: also send mouse up events to the component that was clicked.
+            if component.intersects_point?(**mouse_pos) || component.intersects_point?(**down_pos)
+              component.on_mouse_up(event)
+            end
           end
         end
       end
