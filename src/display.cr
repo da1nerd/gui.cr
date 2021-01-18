@@ -76,7 +76,7 @@ module GUI
         @mouse_down_pos = mouse_pos
       end
 
-      event = MouseDownEvent.new(**mouse_pos)
+      event = MouseDownEvent.new(CrystGLFW::MouseButton::Left, **mouse_pos)
       self.each do |component|
         next unless event.propagate?
         if left_pressed && component.intersects_point?(**mouse_pos)

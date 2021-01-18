@@ -19,7 +19,7 @@ module GUI
     delegate :x, :y, :left, :right, :top, :bottom, :center_x, :center_y, :height, :width, to: @block
 
     # Triggered when a mouse button is pressed down while positioned over the `Component`
-    event :mouse_down, x : Float64, y : Float64
+    event :mouse_down, button : CrystGLFW::MouseButton, x : Float64, y : Float64
     # Triggered when a mouse button is released.
     event :mouse_up, x : Float64, y : Float64
     # Triggered while the mouse is positioned over the bounding box of the `Component`
