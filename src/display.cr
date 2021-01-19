@@ -36,6 +36,9 @@ module GUI
     # Loads all of the constraints from every component in this hierarchy into the solver.
     # This should only be ran once.
     def build
+      self.each do |component|
+        component.build(self)
+      end
       self.each_constraint { |c| @solver.add_constraint(c) }
     end
 

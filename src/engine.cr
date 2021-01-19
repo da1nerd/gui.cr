@@ -6,6 +6,23 @@ require "./display.cr"
 require "./color.cr"
 
 module GUI
+
+  # This is a sample composed component
+  class Drawer < Component
+    def build(display : Component)
+      self.color = GUI::Color::GREEN
+      self.height.eq display.height
+      self.width.eq 200
+      self.left.eq 0, :MEDIUM
+      self.on_key_down do |event|
+        self.color = GUI::Color::GRAY900
+      end
+      self.on_key_up do |event|
+        self.color = GUI::Color::GREEN
+      end
+    end
+  end
+
   class Engine < Prism::Engine
     include EventHandler
     @display = Display.new
@@ -20,17 +37,7 @@ module GUI
     def draw_window
       @display.color = GUI::Color::BLUE
 
-      drawer = Component.new("drawer")
-      drawer.color = GUI::Color::GREEN
-      drawer.height.eq @display.height
-      drawer.width.eq 200
-      drawer.left.eq 0, :MEDIUM
-      drawer.on_key_down do |event|
-        drawer.color = GUI::Color::GRAY900
-      end
-      drawer.on_key_up do |event|
-        drawer.color = GUI::Color::GREEN
-      end
+      drawer = Drawer.new
 
       content = Component.new("content")
       content.color = GUI::Color::RED

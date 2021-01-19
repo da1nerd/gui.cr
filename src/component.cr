@@ -16,7 +16,7 @@ module GUI
     getter animator
     property color, children
 
-    delegate :x, :y, :left, :right, :top, :bottom, :center_x, :center_y, :height, :width, to: @block
+    forward_missing_to @block
 
     # Triggered when a mouse button is pressed down while positioned over the `Component`
     event :mouse_down, button : CrystGLFW::MouseButton, x : Float64, y : Float64
@@ -45,6 +45,25 @@ module GUI
       @block = ::Layout::Block.new(label)
       @animator = GUI::Animator.new
       @color = GUI::Color::WHITE
+    end
+
+    # Override this to compose complex components.
+    #
+    # You'll have access to the root *display* `Component` so that
+    # you can use the display dimensions in constraints if needed.
+    #
+    # When composing your custom component you must add the sub-components to
+    # `@children` otherwise they won't be picked up by the constraint solver.
+    #
+    # ## Example
+    # ```
+    # def build(display : Component)
+    #  child = MySubComponent.new
+    #  # set some constraints...
+    #  @children << child
+    # end
+    # ```
+    def build(display : Component)
     end
 
     # Enumerate over all `Component`s in this `Component`'s hierarchy.
