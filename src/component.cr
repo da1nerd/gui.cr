@@ -109,6 +109,8 @@ module GUI
 
     # Scales a *value* from a range of 0..*max* to fit within a range of -1..1
     private def scale_to_1(value, max)
+      # short-circuit if already scaled
+      return value unless max > 1
       # convert to range of 0..2
       scale = 2 / (max - 1)
       # convert to a range of -1..1
